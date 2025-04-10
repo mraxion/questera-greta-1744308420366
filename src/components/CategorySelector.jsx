@@ -4,7 +4,9 @@ import { motion } from 'framer-motion';
 export default function CategorySelector({ categories, currentCategory, onSelect }) {
   return (
     <nav className="w-full max-w-md" aria-label="Category navigation">
-      <h2 className="text-xl text-secondary-dark mb-4" id="category-heading">Choose a Category:</h2>
+      <h2 className="text-xl text-secondary-dark mb-4" id="category-heading">
+        Choose a Category:
+      </h2>
       <div 
         className="grid grid-cols-2 gap-3" 
         role="tablist" 
@@ -17,8 +19,8 @@ export default function CategorySelector({ categories, currentCategory, onSelect
             whileTap={{ scale: 0.98 }}
             onClick={() => onSelect(category.id)}
             className={`p-3 rounded-lg text-left transition-colors ${
-              currentCategory === category.id
-                ? 'bg-primary text-white'
+              currentCategory === category.id 
+                ? 'bg-primary text-white' 
                 : 'bg-white text-secondary-dark hover:bg-primary-light/10'
             }`}
             role="tab"

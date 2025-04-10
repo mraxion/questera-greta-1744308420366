@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useProgress } from '../contexts/ProgressContext';
 import { FaCheck, FaVolumeUp } from 'react-icons/fa';
 
@@ -7,9 +7,12 @@ export default function FlashCard({ phrase, isFlipped, onFlip, showHint }) {
   const { markAsLearned, isLearned } = useProgress();
   const learned = isLearned(phrase.id);
 
-  const speakPhrase = (text, lang) => {
+  const speakPhrase = (text) => {
+    // Only speak English phrases
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang === 'english' ? 'en-US' : 'es-ES';
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9; // Slightly slower for better clarity
+    utterance.pitch = 1;
     window.speechSynthesis.speak(utterance);
   };
 
@@ -41,7 +44,7 @@ export default function FlashCard({ phrase, isFlipped, onFlip, showHint }) {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                speakPhrase(phrase.english, 'english');
+                speakPhrase(phrase.english);
               }}
               className="text-primary hover:text-primary-dark transition-colors"
               aria-label="Listen to English phrase"
@@ -65,16 +68,6 @@ export default function FlashCard({ phrase, isFlipped, onFlip, showHint }) {
             style={{ transform: 'rotateX(180deg)' }}
           >
             <h2 className="text-2xl text-secondary mb-4">{phrase.translation}</h2>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                speakPhrase(phrase.translation, 'native');
-              }}
-              className="text-primary hover:text-primary-dark transition-colors"
-              aria-label="Listen to translated phrase"
-            >
-              <FaVolumeUp size={24} />
-            </button>
           </div>
         </motion.div>
       </motion.div>
